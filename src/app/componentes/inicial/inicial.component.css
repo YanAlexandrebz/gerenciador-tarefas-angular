@@ -1,0 +1,48 @@
+.concluido{
+    text-decoration: line-through;
+}
+
+.table{
+    text-align: center;
+    align-items: center;
+}
+
+button{
+    width: 120px;
+}
+
+.mask-custom {
+    backdrop-filter: blur(15px);
+    background-color: rgba(41, 41, 41, 0.2);
+    border-radius: 2em;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-clip: padding-box;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.03);
+}
+
+.titulo{
+    text-align: center;
+}
+
+::placeholder { 
+    color: white;
+    opacity: 1; 
+  }
+
+.ordenar-tarefa{
+    cursor: pointer;
+}
+
+#div-input {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#search-field {
+    width: 30%;
+    background-color: rgb(88, 88, 88);
+    color: white;
+}
+
+
+

@@ -1,0 +1,117 @@
+<br>
+<div class="mask d-flex h-100">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-7 col-xl-11">
+        <div class="card mask-custom">
+          <div class="card-body p-4 text-black">
+            <div class="my-4">
+              <h3 class="titulo">
+                <i class="bi bi-card-checklist"></i>
+                Listagem de Tarefas
+              </h3>
+              <br>
+              <!-- Pesquisa -->
+              <div id="div-input" class="col-12 text-center mb-4">
+                <input type="text" id="search-field" class="form-control" placeholder="Pesquisar..."
+                  (keyup)="pesquisar($event)">
+              </div>
+              <!-- Tabela -->
+              <table class="table table-responsive-xl table-light table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th class="col-sm-8 
+                        ordenar-tarefa" (click)="ordenar()">
+                      Tarefa
+                      <i class="bi bi-sort-alpha-down" *ngIf="ascendente()"></i>
+                      <i class="bi bi-sort-alpha-down-alt" *ngIf="!ascendente()"></i>
+                    </th>
+                    <th class="col">Concluido</th>
+                    <th class="col-sm-4">
+                      <button type="button" class="btn btn-success btn-sm" [routerLink]="['/cadastrar']">
+                        <i class="bi bi-plus-lg"></i>
+                        Nova
+                      </button>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let tarefa of tarefas">
+                    <td [ngClass]="{
+                            'table-success': !tarefa.concluido,
+                            concluido: tarefa.concluido
+                            }">
+                      {{tarefa.nome}}
+                    </td>
+                    <td>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" [checked]="tarefa.concluido"
+                          (click)="concluir(tarefa.id)" />
+                      </div>
+                    </td>
+                    <td>
+                      <button type="button" class="btn btn-info btn-sm" [routerLink]="['/editar/' + tarefa.id]">
+                        <i class="bi bi-pencil-fill"></i>
+                        Editar
+                      </button>
+                      &nbsp;
+                      <button type="button" class="btn btn-danger btn-sm" (click)="removerId(tarefa.id)"
+                        data-bs-toggle="modal" data-bs-target="#modalTarefa">
+                        <i class="bi bi-x-lg"></i>
+                        Remover
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p *ngIf="tarefas.length === 0">Nenhuma tarefa cadastrada.</p>
+
+              
+              <!-- Paginação -->
+              <nav>
+                <ul class="pagination justify-content-center">
+                  <li class="page-item" [ngClass]="{ disabled: pagina === 0 }">
+                    <a class="page-link" href="#" (click)="paginar(0)">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li class="page-item" *ngFor="let pag of obterPaginas()" [ngClass]="{ active: pag === pagina }">
+                    <a class="page-link" href="#" (click)="paginar(pag)">{{ pag + 1 }}</a>
+                  </li>
+                  <li class="page-item" [ngClass]="{ disabled: pagina === numeroPaginas() - 1 }">
+                    <a class="page-link" href="#" (click)="paginar(numeroPaginas() - 1)">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+              <!-- Fim Paginacao -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalTarefa" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTarefaLabel">Remover tarefa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">Deseja remover a tarefa {{tarefa.nome}}?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="remover()" data-bs-dismiss="modal">
+          Sim
+        </button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+          Não
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

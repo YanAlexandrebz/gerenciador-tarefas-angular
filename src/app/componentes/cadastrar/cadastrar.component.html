@@ -1,0 +1,68 @@
+<br>
+<div class="mask d-flex h-100">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-7 col-xl-11">
+        <div class="card mask-custom">
+          <div class="card-body p-4 text-black">
+            <div class="my-4">
+              <h2 class="titulo">
+                <i class="bi bi-journal-check"></i>
+                Cadastrar tarefa</h2>
+              <form [formGroup]="form" novalidate>
+                <div class="form-floating mb-2">
+                  <input type="text" class="form-control" placeholder="Nome tarefa" aria-label="Nome tarefa" id="nome"
+                    formControlName="nome" [ngClass]="cssValidacao('nome')">
+                  <label for="floatingInputValue">Tarefa</label>
+                  <span class="invalid-feedback" *ngIf="form.controls.nome.touched && 
+          form.controls.nome.errors?.required">
+                    Tarefa é obrigatório
+                  </span>
+                  <span class="invalid-feedback" *ngIf="form.controls.nome.touched && 
+            form.controls.nome.errors?.minlength">
+                    Nome deve conter 5 ou mais caracteres.
+                  </span>
+                </div>
+
+                <div class="d-grid gap-2 col-6 mx-auto">
+                  <button type="button" class="btn btn-success" (click)="cadastrar()" [disabled]="form.invalid"
+                    data-bs-toggle="modal" data-bs-target="#modalTarefa">
+                    <i class="bi bi-plus-lg"></i>
+                    Cadastrar
+                  </button>
+                  <!-- &nbsp; -->
+                  <button type="button" class="btn btn-outline-secondary btn-sm" [routerLink]="['/']">
+                    <i class="bi bi-arrow-left-short"></i>
+                    Voltar
+                  </button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--- Modal --->
+<div class="modal fade" id="modalTarefa" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTarefaLabel">Cadastro de tarefa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">Tarefa cadastrada com sucesso!</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+          Nova tarefa
+        </button>
+        <button type="button" class="btn btn-info" data-bs-dismiss="modal" [routerLink]="['']">
+          Listar tarefas
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

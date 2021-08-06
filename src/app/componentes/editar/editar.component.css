@@ -1,0 +1,12 @@
+
+
+.mask-custom {
+    background-color: rgba(56, 56, 56, 0.2);
+    border-radius: 2em;
+    background-clip: content-box;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.03);
+}
+
+.titulo{
+    text-align: center;
+}
