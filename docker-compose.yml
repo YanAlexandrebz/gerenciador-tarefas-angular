@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  gerenciador-tarefas:
+    image: gerenciador-tarefas
+    build: .
+    ports:
+      - 8081:80
