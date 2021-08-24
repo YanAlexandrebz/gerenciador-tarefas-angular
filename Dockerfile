@@ -1,20 +1,23 @@
-FROM node:latest as temp
-WORKDIR /app
-COPY package.json package-lock.json ./
+FROM node:14 as builder
+WORKDIR /usr/src/app
+COPY . /usr/src/app
 RUN npm install
-COPY . .
-RUN npm run build
+RUN npm install -g @angular/cli@12.0.1 --unsafe
+RUN ng build
 
-# Stage 2: Criar um web server com nginx
-# Vamos pegar nossa imagem base nginx
-FROM nginx:latest
-VOLUME /var/cache/nginx
-RUN rm -rf /usr/share/nginx/html/*
-# Copiamos o diretório “usr/local/app/dist/sample-angular-app” da imagem #temporária “temp”  para o diretório /usr/share/nginx/html da imagem nginx
-COPY --from=temp /app/dist/gerenciador-tarefas /usr/share/nginx/html
+# Copiar arquivos do projeto para o NGINX
+FROM nginx:1.21.1-alpine
+COPY --from=builder /usr/src/app/dist/gerenciador-tarefas /usr/share/nginx/html
 COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
-# Abrimos a porta 80, padrão do NGINX
-#EXPOSE 80
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 
-# docker build -t gerenciador-tarefas .
-# docker run -p 8082:80
+# docker build -f .Dockerfile -t gerenciador-tarefas .
+
+# docker run --name gerenciador-tarefas -d -p 9022:80 yanalexandrebz/gerenciador-tarefas
+
+############### SUBIR NO HUB.DOCKER.COM ###############
+# $ docker build -t yanalexandrebz/atividadedocker .
+# $ docker run -d --name=atividadedocker -p 80:80 yanalexandrebz/atividadedocker
+# $ docker push  yanalexandrebz/atividadedocker
+
